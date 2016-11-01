@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
-
         Service service = Service.retrofit.create(Service.class);
         Call<ArrayList<Users>> call = service.getUsers();
         call.enqueue(new Callback<ArrayList<Users>>() {
@@ -38,7 +37,12 @@ public class MainActivity extends AppCompatActivity {
                     data = response.body();
 
                     //onde os dados são carregados
-                    adapter = new Adapters(data);
+                    adapter = new Adapters(data, MainActivity.this, new OnUserItemClickListener() {
+                        @Override
+                        public void onItemClick(Users user) {
+                            Toast.makeText(MainActivity.this, "TESTE: " + user, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                     //attach ao recyclerView
                     mLayoutManager = new LinearLayoutManager(getApplicationContext());
