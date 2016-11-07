@@ -1,4 +1,6 @@
-package com.igormelo.tccbrasilplural;
+package com.igormelo.tccbrasilplural.modelos;
+
+import com.igormelo.tccbrasilplural.Address;
 
 /**
  * Created by root on 01/11/16.
@@ -10,8 +12,10 @@ public class Users {
     private String email;
     Address address = new Address();
 
+
+
     public String getId() {
-        return "ID :" + id;
+        return id;
     }
 
     public void setId(String id) {
