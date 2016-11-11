@@ -2,7 +2,9 @@ package com.igormelo.tccbrasilplural.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -31,19 +34,23 @@ import com.igormelo.tccbrasilplural.adapters.UserAdapter;
 import com.igormelo.tccbrasilplural.modelos.Comentarios;
 import com.igormelo.tccbrasilplural.modelos.Users;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentOne extends Fragment {
+public class FragmentOne extends Fragment{
+
     String nome;
     String emaill;
     String phonee;
     String websitee;
+    Button button;
 
     public FragmentOne(){
+
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,11 +59,13 @@ public class FragmentOne extends Fragment {
 
 
     }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Service service = Service.retrofit.create(Service.class);
         final View view = inflater.inflate(R.layout.fragment_one, container, false);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        button = (Button) view.findViewById(R.id.button);
 
 
         if(getArguments() != null) {
@@ -75,12 +84,32 @@ public class FragmentOne extends Fragment {
         phone.setText(phonee);
         website.setText(websitee);
 
+
        // Toast.makeText(getActivity(), "name: " + nome, Toast.LENGTH_SHORT).show();
 
 
 
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = websitee;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://"+url));
+                getActivity().startActivity(i);
+
+
+            }
+        });
+
+    }
+
 
     public static FragmentOne newInstance(String nome, String email, String phone, String website) {
         FragmentOne f = new FragmentOne();
