@@ -2,8 +2,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#152138"
         tools:context="com.igormelo.tccbrasilplural.MainActivity">
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/card_recycler_view"
             android:scrollbars="vertical"

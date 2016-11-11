@@ -5,26 +5,32 @@
     android:id="@+id/layPosts">
     <TextView
         android:id="@+id/userid"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/id"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/title"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="12sp"
+        android:textSize="15dp"
+        android:textColor="#6842f4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/id"
+        android:textSize="15dp"
+        android:textColor="#3f0aff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:textColor="#459e5a"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/body"
-        android:textSize="10sp"
+        android:textSize="12dp"
+        android:textColor="#ed9640"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

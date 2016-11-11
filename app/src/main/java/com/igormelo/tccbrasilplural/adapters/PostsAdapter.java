@@ -45,10 +45,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         final PostsAdapter.ViewHolder VH = holder;
 
         final Post myPost = posts.get(position);
-        VH.userid.setText("userId: "+myPost.getUserId());
-        VH.id.setText("ID: "+myPost.getId());
-        VH.title.setText(myPost.getTitle());
-        VH.body.setText(myPost.getBody());
+        VH.userid.setText("ID do usuário:   "+myPost.getUserId());
+        VH.id.setText("ID do post:  "+myPost.getId());
+        VH.title.setText("Titulo:   "+myPost.getTitle());
+        VH.body.setText("Comentário:     "+myPost.getBody());
 
 
         VH.layPosts.setOnClickListener(new View.OnClickListener() {

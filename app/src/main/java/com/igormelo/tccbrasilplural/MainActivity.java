@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.igormelo.tccbrasilplural.adapters.UserAdapter;
 import com.igormelo.tccbrasilplural.modelos.Users;
 import java.util.ArrayList;
@@ -25,8 +29,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //getActionBar().setTitle("Primeira tela");
+        getSupportActionBar().setTitle("Primeira");
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+
+
         Service service = Service.retrofit.create(Service.class);
+
+        final RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+
 
         //Chamar User
         Call<ArrayList<Users>> call = service.getUsers();
@@ -41,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
                         public void onItemClick(Users users) {
                             Intent intent = new Intent(MainActivity.this, PostActivity.class);
                             Bundle bundle = new Bundle();
-                            bundle.putString("primeira", users.getId());
+                            bundle.putString("id", users.getId());
+                            bundle.putString("nome", users.getName());
+                            bundle.putString("email", users.getEmail());
+                            bundle.putString("phone", users.getPhone());
+                            bundle.putString("website", users.getWebsite());
                             //bundle.putString("segunda", users.getName());
                             intent.putExtras(bundle);
                             startActivity(intent);
@@ -49,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
                     });
                     mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                    recyclerView.setItemAnimator(itemAnimator);
                     recyclerView.setAdapter(adapter);
                 }
             }

@@ -10,6 +10,8 @@ public class Users {
     private String id;
     private String name;
     private String email;
+    private String phone;
+    private String website;
     Address address = new Address();
 
 
@@ -37,6 +39,21 @@ public class Users {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
 
     public Address getAddress() {
         return address;
@@ -45,4 +62,6 @@ public class Users {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
 }

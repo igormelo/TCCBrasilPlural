@@ -47,7 +47,7 @@ public UserAdapter(ArrayList<Users> users, Context context, OnItemClickListener 
         VH.tv_id.setText("ID: " + myUser.getId());
         VH.tv_name.setText("name: " + myUser.getName());
         VH.tv_email.setText("email: "+myUser.getEmail());
-        VH.tv_street.setText(myUser.getAddress().getStreet());
+        VH.tv_street.setText("street" +myUser.getAddress().getStreet());
 
 
         VH.layPrincipal.setOnClickListener(new View.OnClickListener() {

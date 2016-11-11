@@ -29,35 +29,57 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class CommentsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    String postId;
+    String nome;
+    String email;
+    String phone;
+    String website;
+    String title;
+    String body;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_comments);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        postId = bundle.getString("postId");
+        nome = bundle.getString("nome");
+        email = bundle.getString("email");
+        phone = bundle.getString("phone");
+        website = bundle.getString("website");
+        title = bundle.getString("title");
+        body = bundle.getString("body");
+        //Toast.makeText(this, "name: " + nome, Toast.LENGTH_SHORT).show();
+
+        setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentOne(), "ONE");
-        adapter.addFragment(new FragmentTwo(), "TWO");
+        adapter.addFragment(FragmentOne.newInstance(nome,email,phone,website), "Informações");
+        adapter.addFragment(FragmentTwo.newInstance(postId,title,body), "Comentários");
         viewPager.setAdapter(adapter);
     }
 
