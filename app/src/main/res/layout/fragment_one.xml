@@ -96,13 +96,13 @@
         android:id="@+id/seekBar" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="go to website"
+        android:textSize="15dp"
+        android:background="@android:color/darker_gray"
+        android:textColor="#FFFF"
         android:id="@+id/button"/>
-
-
-
 
 
 </LinearLayout>

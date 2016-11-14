@@ -101,7 +101,7 @@ public class FragmentOne extends Fragment{
             public void onClick(View v) {
                 String url = websitee;
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://"+url));
+                i.setData(Uri.parse("http://"+url));
                 getActivity().startActivity(i);
 
 
