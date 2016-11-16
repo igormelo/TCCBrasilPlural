@@ -14,9 +14,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by root on 01/11/16.
+ * SERVIÇO QUE CONECTA COM O SERVIDOR/JSON
  */
-
 public interface Service {
     @GET("users")
     Call<ArrayList<Users>> getUsers();

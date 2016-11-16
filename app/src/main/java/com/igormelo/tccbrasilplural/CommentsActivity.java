@@ -48,17 +48,10 @@ public class CommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-
-
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-
+        //Pega os Intent do <Post> por String
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         postId = bundle.getString("postId");
@@ -68,7 +61,6 @@ public class CommentsActivity extends AppCompatActivity {
         website = bundle.getString("website");
         title = bundle.getString("title");
         body = bundle.getString("body");
-        //Toast.makeText(this, "name: " + nome, Toast.LENGTH_SHORT).show();
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);

@@ -29,11 +29,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getActionBar().setTitle("Primeira tela");
         getSupportActionBar().setTitle("Primeira");
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
-
+        /////// TODO:  Conexão com retrofit
         Service service = Service.retrofit.create(Service.class);
 
         final RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -41,13 +40,14 @@ public class MainActivity extends AppCompatActivity {
         itemAnimator.setRemoveDuration(1000);
 
 
-        //Chamar User
+        ////// TODO: Chamar User do JSON
         Call<ArrayList<Users>> call = service.getUsers();
         call.enqueue(new Callback<ArrayList<Users>>() {
             @Override
             public void onResponse(Call<ArrayList<Users>> call, Response<ArrayList<Users>> response) {
                 if (response.isSuccessful()) {
-                    //attach ao recyclerView
+
+                    //TODO:  attach ao recyclerView
                     data = response.body();
                     adapter = new UserAdapter(data, MainActivity.this, new OnItemClickListener() {
                         @Override
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                             bundle.putString("email", users.getEmail());
                             bundle.putString("phone", users.getPhone());
                             bundle.putString("website", users.getWebsite());
-                            //bundle.putString("segunda", users.getName());
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }

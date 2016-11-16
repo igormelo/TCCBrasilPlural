@@ -43,11 +43,10 @@ public class PostActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Posts");
         setContentView(R.layout.posts);
-
         recyclerView = (RecyclerView) findViewById(R.id.posts_recycler_view);
         Service service = Service.retrofit.create(Service.class);
 
-        //chamar o post
+        //pega os Intents do <User> por String
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String id = bundle.getString("id");
@@ -56,9 +55,7 @@ public class PostActivity extends AppCompatActivity{
         phone = bundle.getString("phone");
         website = bundle.getString("website");
 
-
-       // Toast.makeText(this, "name: " + nome, Toast.LENGTH_SHORT).show();
-
+        //chamar o post
         Call<ArrayList<Post>> call = service.getPostsByUserId(Integer.valueOf(id));
         call.enqueue(new Callback<ArrayList<Post>>() {
             @Override
@@ -68,6 +65,7 @@ public class PostActivity extends AppCompatActivity{
                     adapter = new PostsAdapter(post, PostActivity.this, new OnItemClickPost() {
                         @Override
                         public void onItemClick(Post post) {
+                            //Passa o intent para o Comments
                             Intent intent = new Intent(PostActivity.this,CommentsActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", post.getUserId());

@@ -74,7 +74,7 @@ public class FragmentTwo extends Fragment {
         postTitle.setText(titlee);
         TextView postBody = (TextView) view.findViewById(R.id.textPostBody);
         postBody.setText(bodyy);
-        //Toast.makeText(getActivity(), "postid" + postid, Toast.LENGTH_SHORT).show();
+
         //// TODO: 10/11/16 criar um metodo que vai chamar o retrofit
         Call<ArrayList<Comentarios>> call = service.getCommentsByPostId(Integer.valueOf(postid));
         call.enqueue(new Callback<ArrayList<Comentarios>>() {

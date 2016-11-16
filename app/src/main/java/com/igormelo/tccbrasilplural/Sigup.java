@@ -1,30 +1,25 @@
 package com.igormelo.tccbrasilplural;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
 import android.content.Intent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.igormelo.tccbrasilplural.R.id.email;
 
 public class Sigup extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-    String login = "igor";
-    String senha = "igor12345";
+    String login = "igorak4@hotmail.com";
+    String senha = "igormelo151725";
     ProgressDialog progressDialog;
 
 
@@ -37,6 +32,8 @@ public class Sigup extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         ButterKnife.inject(this);
 
         progressDialog = new ProgressDialog(Sigup.this,
@@ -56,6 +53,7 @@ public class Sigup extends AppCompatActivity {
         progressDialog.setMessage("Autenticando");
         progressDialog.show();
         // TODO: Implement your own authentication logic here.
+        // TODO: Tempo para executar uma açao (Semelhante ao TIMER do delphi)
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -65,10 +63,21 @@ public class Sigup extends AppCompatActivity {
                         String password = _passwordText.getText().toString();
                         _loginButton.setEnabled(true);
                         if(email.equals(login)&&password.equals(senha)){
-                            //progressDialog.dismiss();
                             onLoginSuccess();
+                        } else if(email.equals("") && password.equals("")){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Sigup.this);
+                            builder.setTitle("Login failed");
+                            builder.setMessage("Login e/ou senha em branco, por favor preencha os campos");
+                            builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                         //
+                                        }
+                                    });
+                                    builder.create();
+                            builder.show();
+                            progressDialog.dismiss();
                         } else {
-                            //progressDialog.dismiss();
                             onLoginFailed();
                         }
                     }
@@ -99,7 +108,19 @@ public class Sigup extends AppCompatActivity {
         //finish();
         //AlertDialog alertDialog = new AlertDialog();
         progressDialog.dismiss();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Login failed");
+        builder.setMessage("Login e/ou senha errados");
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create();
+        builder.show();
         _loginButton.setEnabled(true);
     }
+
 
 }
