@@ -43,7 +43,7 @@ public class CommentsActivity extends AppCompatActivity {
         body = bundle.getString("body");
 
         setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager); 
 
 
     }
