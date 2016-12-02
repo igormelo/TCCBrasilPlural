@@ -1,13 +1,24 @@
 package com.igormelo.tccbrasilplural.modelos;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by root on 03/11/16.
  */
 
 public class Comentarios {
+    @SerializedName("postId")
+    @Expose
     private String postId;
+    @SerializedName("id")
+    @Expose
     private String id;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("email")
+    @Expose
     private String email;
 
     public String getPostId() {

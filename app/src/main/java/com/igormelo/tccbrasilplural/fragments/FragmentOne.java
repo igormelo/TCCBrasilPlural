@@ -1,6 +1,7 @@
 package com.igormelo.tccbrasilplural.fragments;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,19 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import com.igormelo.tccbrasilplural.R;
+import com.igormelo.tccbrasilplural.databinding.FragmentOneBinding;
 
-import java.net.URL;
 
 public class FragmentOne extends Fragment{
 
-    String nome;
-    String emaill;
-    String phonee;
-    String websitee;
-    Button button;
+
+    public Button button;
     private String url;
 
     public FragmentOne(){
@@ -30,30 +26,24 @@ public class FragmentOne extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_one, container, false);
+                              Bundle savedInstanceState) {
+        FragmentOneBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_one, container, false);
+        View view = binding.getRoot();
+
+        //binding.setFrag(this);
         button = (Button) view.findViewById(R.id.button);
 
 
         if(getArguments() != null) {
-            nome = getArguments().getString("nome");
-            emaill = getArguments().getString("email");
-            phonee = getArguments().getString("phone");
-            websitee = getArguments().getString("website");
+            binding.setName(getArguments().getString("nome"));
+            binding.setEmail(getArguments().getString("email"));
+            binding.setPhone(getArguments().getString("phone"));
+            binding.setSite(getArguments().getString("website"));
+            url = binding.getSite();
         }
-
-        TextView name = (TextView) view.findViewById(R.id.name);
-        TextView email = (TextView) view.findViewById(R.id.email);
-        TextView phone = (TextView) view.findViewById(R.id.telefone);
-        TextView website = (TextView) view.findViewById(R.id.site);
-        name.setText(nome);
-        email.setText(emaill);
-        phone.setText(phonee);
-        website.setText(websitee);
 
         return view;
     }
@@ -61,18 +51,14 @@ public class FragmentOne extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    String url = websitee;
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse("http://" + url));
-                    getActivity().startActivity(i);
-            }
-        });
+        button.setOnClickListener(v -> exec());
     }
+    private void exec(){
 
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("http://" + url));
+        getActivity().startActivity(i);
+    }
 
     public static FragmentOne newInstance(String nome, String email, String phone, String website) {
         FragmentOne f = new FragmentOne();
@@ -85,9 +71,6 @@ public class FragmentOne extends Fragment{
         f.setArguments(args);
 
         return f;
-    }
-    public void verificaUrl(String url){
-        this.url = websitee;
     }
 
 }

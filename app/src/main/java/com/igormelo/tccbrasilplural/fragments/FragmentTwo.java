@@ -1,6 +1,7 @@
 package com.igormelo.tccbrasilplural.fragments;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,29 +25,26 @@ import com.igormelo.tccbrasilplural.Service;
 import com.igormelo.tccbrasilplural.adapters.CommentsAdapter;
 import com.igormelo.tccbrasilplural.adapters.InfoAdapter;
 import com.igormelo.tccbrasilplural.adapters.UserAdapter;
+import com.igormelo.tccbrasilplural.databinding.FragmentTwoBinding;
+import com.igormelo.tccbrasilplural.databinding.RecyclerFragTwoBinding;
 import com.igormelo.tccbrasilplural.modelos.Comentarios;
-import com.igormelo.tccbrasilplural.modelos.Users;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-import static android.R.attr.data;
 
-/**
- * Created by root on 07/11/16.
- */
 
 public class FragmentTwo extends Fragment {
     private CommentsAdapter adapter;
-    private ArrayList<Comentarios> data;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     String postid;
-    String titlee;
-    String bodyy;
+
 
     public FragmentTwo() {
 
@@ -59,48 +57,51 @@ public class FragmentTwo extends Fragment {
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recycler_frag_two, container, false);
+        RecyclerFragTwoBinding binding = DataBindingUtil.inflate(inflater, R.layout.recycler_frag_two, container, false);
+        View view = binding.getRoot();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_two);
         Service service = Service.retrofit.create(Service.class);
+
         if(getArguments() != null){
             postid = getArguments().getString("postId");
-            titlee = getArguments().getString("title");
-            bodyy = getArguments().getString("body");
-            recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+            binding.setTitle(getArguments().getString("title"));
+            binding.setBody(getArguments().getString("body"));
+            //binding.getFrag2().recyclerView.setLayoutManager(mLayoutManager);
+            //recyclerView.setLayoutManager(mLayoutManager);
+            //recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
-        TextView postTitle = (TextView) view.findViewById(R.id.textPostTitle);
-        postTitle.setText(titlee);
-        TextView postBody = (TextView) view.findViewById(R.id.textPostBody);
-        postBody.setText(bodyy);
 
         //// TODO: 10/11/16 criar um metodo que vai chamar o retrofit
-        Call<ArrayList<Comentarios>> call = service.getCommentsByPostId(Integer.valueOf(postid));
-        call.enqueue(new Callback<ArrayList<Comentarios>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Comentarios>> call, Response<ArrayList<Comentarios>> response) {
-                if(response.isSuccessful()){
-                    data = response.body();
-                    adapter = new CommentsAdapter(data, getActivity(), new OnItemClickComments() {
-                        @Override
-                        public void onItemClick(Comentarios comentarios) {
-                            Toast.makeText(getActivity(),"Clicked", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(adapter);
+        Observable<ArrayList<Comentarios>> call = service.getCommentsByPostId(Integer.valueOf(postid));
+        Subscription subscription = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ArrayList<Comentarios>>() {
+                    @Override
+                    public void onCompleted() {
 
-                }
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<ArrayList<Comentarios>> call, Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<Comentarios> comentarios) {
+                        adapter = new CommentsAdapter(comentarios, getActivity(), new OnItemClickComments() {
+                            @Override
+                            public void onItemClick(Comentarios comentarios) {
+                                Toast.makeText(getActivity(),"Clicked", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setAdapter(adapter);
+
+                    }
+                });
 
     return view;
     }

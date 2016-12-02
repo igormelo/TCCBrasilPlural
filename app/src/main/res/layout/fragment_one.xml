@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="frag"
+            type="com.igormelo.tccbrasilplural.fragments.FragmentOne"/>
+        <variable
+            name="name"
+            type="String"/>
+        <variable
+            name="email"
+            type="String"/>
+        <variable
+            name="phone"
+            type="String"/>
+        <variable
+            name="site"
+            type="String"/>
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,6 +40,7 @@
 
         <TextView
             android:id="@+id/name"
+            android:text="@{name}"
             android:textSize="30sp"
             android:textColor="#2369e0"
             android:layout_width="match_parent"
@@ -41,6 +60,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/email"
+            android:text="@{email}"
             android:textSize="20sp"
             android:textColor="#2369e0"
             android:layout_width="match_parent"
@@ -61,6 +81,7 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/telefone"
+        android:text="@{phone}"
         android:textSize="20sp"
         android:textColor="#2369e0"
         android:layout_width="wrap_content"
@@ -81,6 +102,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/site"
+            android:text="@{site}"
             android:textColor="#2369e0"
             android:textSize="25dp"
             android:layout_width="wrap_content"
@@ -106,3 +128,4 @@
 
 
 </LinearLayout>
+</layout>

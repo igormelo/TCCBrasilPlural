@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+    <data>
+        <variable
+            name="frag2"
+            type="com.igormelo.tccbrasilplural.fragments.FragmentTwo"/>
+        <variable
+            name="title"
+            type="String"/>
+        <variable
+            name="body"
+            type="String"/>
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical" android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:id="@+id/fragment_two">
 
     <TextView
         android:id="@+id/titlee"
-        android:text="title"
+        android:text="@{title}"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/bodyy"
-        android:text="body"
+        android:text="@{body}"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
+</layout>

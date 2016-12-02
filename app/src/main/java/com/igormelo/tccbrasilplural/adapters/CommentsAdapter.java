@@ -1,22 +1,14 @@
 package com.igormelo.tccbrasilplural.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.igormelo.tccbrasilplural.CommentsActivity;
 import com.igormelo.tccbrasilplural.OnItemClickComments;
-import com.igormelo.tccbrasilplural.OnItemClickListener;
-import com.igormelo.tccbrasilplural.OnItemClickPost;
 import com.igormelo.tccbrasilplural.R;
-import com.igormelo.tccbrasilplural.fragments.FragmentOne;
+import com.igormelo.tccbrasilplural.databinding.RowCommentsBinding;
 import com.igormelo.tccbrasilplural.modelos.Comentarios;
-import com.igormelo.tccbrasilplural.modelos.Post;
-
 import java.util.ArrayList;
 
 /**
@@ -38,9 +30,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     @Override
     public CommentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_comments, parent, false);
-        return new CommentsAdapter.ViewHolder(view);
+        RowCommentsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.row_comments, parent,false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -48,20 +40,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         final CommentsAdapter.ViewHolder VH = holder;
 
         final Comentarios myComments = comments.get(position);
-        VH.postid.setText(myComments.getPostId());
-        VH.id.setText(myComments.getId());
-        VH.name.setText(myComments.getName());
-        VH.email.setText(myComments.getEmail());
-        VH.body.setText(myComments.getBody());
-
-
-        VH.layComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(myComments);
-
-            }
-        });
+        holder.binding.setComents(myComments);
+        holder.binding.layComments.setOnClickListener(v -> listener.onItemClick(myComments));
 
     }
 
@@ -71,19 +51,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView postid, id, name, email, body;
-        private LinearLayout layComments;
-
-        public ViewHolder(View view) {
-            super(view);
-            postid = (TextView) view.findViewById(R.id.postid);
-            id = (TextView) view.findViewById(R.id.id);
-            name = (TextView) view.findViewById(R.id.name);
-            email = (TextView) view.findViewById(R.id.email);
-            body = (TextView) view.findViewById(R.id.body);
+        private RowCommentsBinding binding;
 
 
-            layComments = (LinearLayout) view.findViewById(R.id.layComments);
+        public ViewHolder(RowCommentsBinding view) {
+            super(view.getRoot());
+            binding = view;
 
         }
     }

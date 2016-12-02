@@ -1,5 +1,7 @@
 package com.igormelo.tccbrasilplural.modelos;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.igormelo.tccbrasilplural.Address;
 
 /**
@@ -7,11 +9,23 @@ import com.igormelo.tccbrasilplural.Address;
  */
 
 public class Users {
+    @SerializedName("id")
+    @Expose
     private String id;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("email")
+    @Expose
     private String email;
+    @SerializedName("phone")
+    @Expose
     private String phone;
+    @SerializedName("website")
+    @Expose
     private String website;
+    @SerializedName("address")
+            @Expose
     Address address = new Address();
 
 

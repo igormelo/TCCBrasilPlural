@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="posts"
+            type="com.igormelo.tccbrasilplural.modelos.Post"/>
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,13 +15,16 @@
         android:layout_marginBottom="20dp"/>
     <TextView
         android:id="@+id/userid"
-        android:textSize="15dp"
+        android:text="@{posts.userId}"
+        android:textAlignment="center"
+        android:textSize="25dp"
         android:textColor="#6842f4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/id"
+        android:text="@{posts.id}"
         android:textSize="15dp"
         android:textColor="#3f0aff"
         android:layout_width="match_parent"
@@ -23,6 +32,7 @@
         android:textStyle="italic"/>
     <TextView
         android:id="@+id/title"
+        android:text="@{posts.title}"
         android:layout_marginTop="5dp"
         android:textSize="15sp"
         android:textColor="#459e5a"
@@ -31,6 +41,7 @@
         android:textStyle="bold" />
     <TextView
         android:id="@+id/body"
+        android:text="@{posts.body}"
         android:textSize="12dp"
         android:textColor="#ed9640"
         android:layout_width="match_parent"
@@ -39,3 +50,4 @@
 
 
 </LinearLayout>
+</layout>

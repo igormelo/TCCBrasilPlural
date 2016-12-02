@@ -1,13 +1,24 @@
 package com.igormelo.tccbrasilplural.modelos;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by root on 03/11/16.
  */
 
 public class Post {
+    @SerializedName("userId")
+    @Expose
     private String userId;
+    @SerializedName("id")
+    @Expose
     private String id;
+    @SerializedName("title")
+    @Expose
     private String title;
+    @SerializedName("body")
+    @Expose
     private String body;
 
 

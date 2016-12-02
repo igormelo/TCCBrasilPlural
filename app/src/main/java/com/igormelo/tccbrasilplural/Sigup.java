@@ -1,6 +1,7 @@
 package com.igormelo.tccbrasilplural;
 
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,14 +11,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.igormelo.tccbrasilplural.databinding.ActivitySignupBinding;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
 public class Sigup extends AppCompatActivity {
-
-    private static final String TAG = "LoginActivity";
+    ActivitySignupBinding binding;
     String login = "igorak4@hotmail.com";
     String senha = "igormelo151725";
     ProgressDialog progressDialog;
@@ -31,7 +34,7 @@ public class Sigup extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         ButterKnife.inject(this);
@@ -39,26 +42,17 @@ public class Sigup extends AppCompatActivity {
         progressDialog = new ProgressDialog(Sigup.this,
                 R.style.AppTheme);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
+       _loginButton.setOnClickListener(v -> login());
 
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
     }
 
     public void login() {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Autenticando");
         progressDialog.show();
-        // TODO: Implement your own authentication logic here.
-        // TODO: Tempo para executar uma açao (Semelhante ao TIMER do delphi)
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        //onLoginFailed();
                         String email = _emailText.getText().toString();
                         String password = _passwordText.getText().toString();
                         _loginButton.setEnabled(true);
@@ -71,7 +65,6 @@ public class Sigup extends AppCompatActivity {
                             builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                         //
                                         }
                                     });
                                     builder.create();
@@ -88,14 +81,10 @@ public class Sigup extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
     }
 
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
-        //finish();
-        //moveTaskToBack(true);
     }
 
     public void onLoginSuccess() {
@@ -105,8 +94,6 @@ public class Sigup extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        //finish();
-        //AlertDialog alertDialog = new AlertDialog();
         progressDialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Login failed");
@@ -121,6 +108,4 @@ public class Sigup extends AppCompatActivity {
         builder.show();
         _loginButton.setEnabled(true);
     }
-
-
 }
