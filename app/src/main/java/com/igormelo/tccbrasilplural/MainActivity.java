@@ -16,8 +16,7 @@ import com.igormelo.tccbrasilplural.modelos.Users;
 
 import java.util.ArrayList;
 import rx.Observable;
-import rx.Subscription;
-import rx.Subscriber;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -41,21 +40,21 @@ public class MainActivity extends AppCompatActivity {
         itemAnimator.setRemoveDuration(1000);
 
 
-        Observable<ArrayList<Users>> call = service.getUsers();
-        Subscription subscription = call.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ArrayList<Users>>() {
+        Observable<ArrayList<Users>> call = service.getUsers();//Trasmite os dados que ele pegou do retrofit(JSON)
+        call.subscribeOn(Schedulers.newThread())//O operador subscribeOn cria uma nova thread
+                .observeOn(AndroidSchedulers.mainThread()) // Operador observeOn :Thread que o OBSERVADOR vai executar UI
+                .subscribe(new Observer<ArrayList<Users>>() {//Metodo subscribe: Atribui(Inscreve) o OBSERVADOR ao observable
                                @Override
-                               public void onCompleted() {
+                               public void onCompleted() { // Chamado quando o observable nao tem mais dados para emitir(acabaram os dados, pronto, ele cai aqui)
                                }
 
                                @Override
-                               public void onError(Throwable e) {
+                               public void onError(Throwable e) { // EXECUTA quando observable encontra erros(ex: sem internet)
 
                                }
 
                                @Override
-                               public void onNext(ArrayList<Users> users) {
+                               public void onNext(ArrayList<Users> users) { // EXECUTA quando o observable emitir os dados
                                    adapter = new UserAdapter(users, MainActivity.this, new OnItemClickListener() {
                                        @Override
                                        public void onItemClick(Users users) {

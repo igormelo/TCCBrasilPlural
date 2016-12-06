@@ -37,7 +37,7 @@ public interface Service {
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(rxAdapter)
+            .addCallAdapterFactory(rxAdapter)//Precisa disso para conseguir retornar o Observable
             .build();
 
 }
