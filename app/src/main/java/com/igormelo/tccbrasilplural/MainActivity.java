@@ -12,9 +12,15 @@ import android.support.v7.widget.RecyclerView;
 
 import com.igormelo.tccbrasilplural.adapters.UserAdapter;
 import com.igormelo.tccbrasilplural.databinding.ActivityMainBinding;
+import com.igormelo.tccbrasilplural.databinding.RowUsersBinding;
 import com.igormelo.tccbrasilplural.modelos.Users;
+import com.minimize.android.rxrecycleradapter.RxDataSource;
+import com.minimize.android.rxrecycleradapter.ViewHolderInfo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,15 +29,20 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
-    private RecyclerView recyclerView;
     private UserAdapter adapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         getSupportActionBar().setTitle("Primeira");
-        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+
+
+        List<ViewHolderInfo> viewHolderInfoList = new ArrayList<>();
+        viewHolderInfoList.add(new ViewHolderInfo(R.layout.row_users, 1));
+
+        binding.cardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         Service service = Service.retrofit.create(Service.class);
 
@@ -40,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
         itemAnimator.setRemoveDuration(1000);
 
 
-        Observable<ArrayList<Users>> call = service.getUsers();//Trasmite os dados que ele pegou do retrofit(JSON)
-        call.subscribeOn(Schedulers.newThread())//O operador subscribeOn cria uma nova thread
-                .observeOn(AndroidSchedulers.mainThread()) // Operador observeOn :Thread que o OBSERVADOR vai executar UI
+        Observable<ArrayList<Users>> call = service.getUsers()//Trasmite os dados que ele pegou do retrofit(JSON)
+        .subscribeOn(Schedulers.newThread());//O operador subscribeOn cria uma nova thread
+                call.observeOn(AndroidSchedulers.mainThread()) // Operador observeOn :Thread que o OBSERVADOR vai executar UI
                 .subscribe(new Observer<ArrayList<Users>>() {//Metodo subscribe: Atribui(Inscreve) o OBSERVADOR ao observable
                                @Override
                                public void onCompleted() { // Chamado quando o observable nao tem mais dados para emitir(acabaram os dados, pronto, ele cai aqui)
@@ -50,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
                                @Override
                                public void onError(Throwable e) { // EXECUTA quando observable encontra erros(ex: sem internet)
-
                                }
 
                                @Override
@@ -69,11 +79,9 @@ public class MainActivity extends AppCompatActivity {
                                            startActivity(intent);
                                        }
                                    });
-
-                                   mLayoutManager = new LinearLayoutManager(getApplicationContext());
                                    binding.cardRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2));
-                                   binding.cardRecyclerView.setItemAnimator(itemAnimator);
                                    binding.cardRecyclerView.setAdapter(adapter);
+
                                }
                 });
 
