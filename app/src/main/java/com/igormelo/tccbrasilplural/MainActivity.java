@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.igormelo.tccbrasilplural.adapters.UserAdapter;
 import com.igormelo.tccbrasilplural.databinding.ActivityMainBinding;
@@ -53,18 +54,19 @@ public class MainActivity extends AppCompatActivity {
 
         Observable<ArrayList<Users>> call = service.getUsers()//Trasmite os dados que ele pegou do retrofit(JSON)
         .subscribeOn(Schedulers.newThread());//O operador subscribeOn cria uma nova thread
-                call.observeOn(AndroidSchedulers.mainThread()) // Operador observeOn :Thread que o OBSERVADOR vai executar UI
+                call.observeOn(AndroidSchedulers.mainThread())//observeOn :Thread que o OBSERVADOR vai executar UI(MainThread é a thread de UI(principal))
                 .subscribe(new Observer<ArrayList<Users>>() {//Metodo subscribe: Atribui(Inscreve) o OBSERVADOR ao observable
                                @Override
                                public void onCompleted() { // Chamado quando o observable nao tem mais dados para emitir(acabaram os dados, pronto, ele cai aqui)
+                                   Toast.makeText(MainActivity.this, "No data to show", Toast.LENGTH_SHORT).show();
                                }
 
                                @Override
-                               public void onError(Throwable e) { // EXECUTA quando observable encontra erros(ex: sem internet)
+                               public void onError(Throwable e) {//EXECUTA quando observable encontra erros(ex: sem internet)
                                }
 
                                @Override
-                               public void onNext(ArrayList<Users> users) { // EXECUTA quando o observable emitir os dados
+                               public void onNext(ArrayList<Users> users) {//EXECUTA quando o observable emitir os dados
                                    adapter = new UserAdapter(users, MainActivity.this, new OnItemClickListener() {
                                        @Override
                                        public void onItemClick(Users users) {
